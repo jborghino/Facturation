@@ -1,0 +1,48 @@
+i {
+	color: #C2C2AA;
+	margin-right:5px;
+}
+
+.jumbotron{
+	background-color: #C2C2AA;
+	color: #FFF;
+}
+
+.modal-backdrop{
+	background-color: #A97AAE;
+}
+
+.element{
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	width: 175px;
+	height: 175x;
+}
+
+#logout{
+	text-align:right;
+}
+
+.buttonVehicule {
+	text-align: center;
+}
+
+.editableTable {
+    border:solid 1px;
+    width:100%
+}
+ 
+.editableTable td {
+    border:solid 1px;
+}
+ 
+.editableTable .cellEditing {
+    padding: 0;
+}
+ 
+.editableTable .cellEditing input[type=text]{
+    width:100%;
+    border:0;
+    background-color:rgb(255,253,210);  
+}
+
