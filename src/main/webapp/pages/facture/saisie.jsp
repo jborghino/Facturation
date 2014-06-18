@@ -23,81 +23,54 @@
 <script src=<c:url value="/template/js/jquery.isotope.min.js"/>></script>
 <script src=<c:url value="/template/js/jquery.jqGrid.min.js"/>></script>
 <script src=<c:url value="/template/js/jquery.dataTables.js"/>></script>
-<script src=<c:url value="/template/js/jquery-1.8.3.min.js"/>></script>
-<script src=<c:url value="/template/js/KeyTable.min.js"/>></script>
+<script src=<c:url value="/template/js/jquery.dataTables.editable.js"/>></script>
+<!-- <script src=<c:url value="/template/js/KeyTable.min.js"/>></script> -->
 <script src=<c:url value="/template/js/jquery.jeditable.min.js"/>></script>
-
+<script src=<c:url value="/template/js/jquery-1.8.3.min.js"/>></script>
 
 <script language="javascript" type="text/javascript">
-	// 	$(function() {
-	// 		$("td")
-	// 				.dblclick(
-	// 						function() {
-	// 							var OriginalContent = $(this).text();
-
-	// 							$(this).addClass("cellEditing");
-	// 							$(this)
-	// 									.html(
-	// 											"<input type='text' value='" + OriginalContent + "' />");
-	// 							$(this).children().first().focus();
-
-	// 							$(this).children().first().keypress(
-	// 									function(e) {
-	// 										if (e.which == 13) {
-	// 											var newContent = $(this).val();
-	// 											$(this).parent().text(newContent);
-	// 											$(this).parent().removeClass(
-	// 													"cellEditing");
-	// 										}
-	// 									});
-
-	// 							$(this).children().first().blur(function() {
-	// 								$(this).parent().text(OriginalContent);
-	// 								$(this).parent().removeClass("cellEditing");
-	// 							});
-	// 						});
-	// 	});
-
-	// 	function addRow() {
-	// 		$('#table_id tr:last').after('<tr><td>Insert value</td><td>Insert value</td><td>Insert value</td><td>Insert value</td><td>Insert value</td></tr>');
-	// 	}
-
 	$(document).ready(
 			function() {
-				var t = $('#table_id').dataTable({
-	                "sPaginationType": "full_numbers",
-	                "bJQueryUI": true
-	            });
-				// 		new $.fn.dataTable.KeyTable(t);
+
+				
+				var $table = $("#table_id");
+				// editable
+				$table.dataTable().makeEditable();
+
+				// tab navigation
+				var $td = $table.find("tbody td").get();
 				var keys = new KeyTable({
-					"table" : document.getElementById('table_id')
+					"table" : $table
 				});
 
-				$('#table_id tbody td').each( function () {
-					keys.event.action( this, function (nCell) {
+				$td.each(function() {
+					keys.event.action(this, function(nCell) {
 						/* Block KeyTable from performing any events while jEditable is in edit mode */
-						keys.block = true;
-						
+						keys.block = false;
+
 						/* Initialise the Editable instance for this table */
-						$(nCell).editable( function (sVal) {
+						$(nCell).editable(function(sVal) {
 							/* Submit function (local only) - unblock KeyTable */
 							keys.block = false;
 							return sVal;
-						}, { 
-							"onblur": 'submit', 
-							"onreset": function(){ 
+						}, {
+							"onblur" : 'submit',
+							"onreset" : function() {
 								/* Unblock KeyTable, but only after this 'esc' key event has finished. Otherwise
 								 * it will 'esc' KeyTable as well
 								 */
-								setTimeout( function () {keys.block = false;}, 0); 
+								setTimeout(function() {
+									keys.block = false;
+								}, 0);
 							}
-						} );
-						
-						/* Dispatch click event to go into edit mode - Saf 4 needs a timeout... */
-						setTimeout( function () { $(nCell).click(); }, 0 );
-					} );
-				} );
+						});
 
+						/* Dispatch click event to go into edit mode - Saf 4 needs a timeout... */
+						setTimeout(function() {
+							$(nCell).click();
+						}, 0);
+					});
+				});
 				$('#addRow').on(
 						'click',
 						function() {
@@ -174,32 +147,34 @@
 					</div>
 				</div>
 				<div class="col-lg-12">
-					<table
-						class="table-condensed table-hover table-striped table-bordered"
-						id="table_id">
+					<!-- 						class="table-condensed table-hover table-striped table-bordered" -->
+					<table class="display" id="table_id">
 						<thead>
 							<tr>
 								<th style="width: 10%">Réf</th>
-								<th style="width: 50%">Designation</th>
+								<th style="width: 40%">Designation</th>
 								<th style="width: 10%">Nb</th>
 								<th style="width: 10%">Prix HT</th>
 								<th style="width: 20%">Total HT</th>
+								<th style="width: 10%">Delete</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>156</td>
-								<td>Test 156</td>
+								<td>145</td>
+								<td>Designation 145</td>
 								<td>1</td>
-								<td>29</td>
-								<td>29</td>
+								<td>20</td>
+								<td>20</td>
+								<td>Delete</td>
 							</tr>
 							<tr>
-								<td>278</td>
-								<td>Test 278</td>
-								<td>2</td>
+								<td>465</td>
+								<td>Designation 465</td>
+								<td>3</td>
+								<td>5</td>
 								<td>15</td>
-								<td>30</td>
+								<td>Delete</td>
 							</tr>
 						</tbody>
 					</table>

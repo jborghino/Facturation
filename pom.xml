@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>fr.treeptik.facturation</groupId>
-  <artifactId>Facturation</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
-  
-  
-  <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.treeptik.facturation</groupId>
+	<artifactId>Facturation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+
+	<properties>
 		<version.java>1.7</version.java>
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<spring.security>3.1.4.RELEASE</spring.security>
@@ -19,8 +20,8 @@
 
 
 	</properties>
-  
-  <dependencies>
+
+	<dependencies>
 
 		<!-- Spring all dependencies -->
 
@@ -60,6 +61,17 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.sf.flexjson</groupId>
+			<artifactId>flexjson</artifactId>
+			<version>2.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6</version>
+		</dependency>
 
 		<!-- Generation de PDF -->
 		<dependency>
@@ -158,12 +170,12 @@
 			<artifactId>jsr250-api</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
-		
-  </dependencies>
-  
-  
-  <build>
+
+
+	</dependencies>
+
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -176,5 +188,5 @@
 			</plugin>
 		</plugins>
 	</build>
-  
+
 </project>
