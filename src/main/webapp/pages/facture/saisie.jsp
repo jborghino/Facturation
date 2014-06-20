@@ -31,28 +31,42 @@
 
 
 <script language="javascript" type="text/javascript">
-	$(document).ready(
-			function() {
+	$(document).ready(function() {
 
-				var oTable = $('#table_id').dataTable();
-				//Ajout d'une nouvelle ligne en fin de tableau
-				$("#addRow").click(
-						function() {
-							$(oTable).dataTable().fnAddData(
-									[ "", "", "", "", "", "Supprimer" ]);
-							$(oTable).find('td').editable(function(v, s) {
-								console.log(v);
-								return (v);
-							});
-						});
+		var oTable = $('#table_id').dataTable({
+			"paging" : false
+		});
 
-				var $table = $("#table_id");
-				// editable
-				// $().DataTable() will return a DataTables API instance, 
-				// with the selected table(s) in its context. 
-				// 	The API instance provides a wide range of methods that can be used to manipulate the table.
-				var dataTable = $table.DataTable();
+		var $table = $("#table_id");
+		// editable
+		// $().DataTable() will return a DataTables API instance, 
+		// with the selected table(s) in its context. 
+		// 	The API instance provides a wide range of methods that can be used to manipulate the table.
+		var dataTable = $table.DataTable();
+
+		//Delete row
+		$('#table_id tbody').on('dblclick', 'tr', function() {
+			if ($(this).hasClass('selected')) {
+				$(this).removeClass('selected');
+			} else {
+				dataTable.$('tr.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+		});
+
+		$('#deleteRow').click(function() {
+			dataTable.row('.selected').remove().draw(false);
+		});
+
+		//Ajout d'une nouvelle ligne en fin de tableau
+		$("#addRow").click(function() {
+			$(oTable).dataTable().fnAddData([ "", "", "", "", "" ]);
+			$(oTable).find('td').editable(function(v, s) {
+				console.log(v);
+				return (v);
 			});
+		});
+	});
 </script>
 
 <script type="text/javascript">
@@ -129,10 +143,6 @@
 	</div>
 
 
-
-
-
-
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -188,11 +198,10 @@
 						<thead>
 							<tr>
 								<th style="width: 10%">Réf</th>
-								<th style="width: 40%">Designation</th>
+								<th style="width: 50%">Designation</th>
 								<th style="width: 10%">Nb</th>
 								<th style="width: 10%">Prix HT</th>
 								<th style="width: 20%">Total HT</th>
-								<th style="width: 10%">Supprimer</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -202,7 +211,6 @@
 								<td></td>
 								<td></td>
 								<td></td>
-								<td>Supprimer</td>
 							</tr>
 
 						</tbody>
@@ -211,8 +219,10 @@
 
 				</div>
 			</form:form>
-
+		</div>
+		<div class="row">
 			<button id="addRow" class="buttonVehicule">Nouvelle ligne</button>
+			<button id="deleteRow">Supprimer</button>
 		</div>
 	</div>
 
