@@ -19,69 +19,106 @@
 <!-- Bootstrap -->
 <script src=<c:url value="/template/js/jquery.min.js"/>></script>
 <!-- slider -->
+
 <script src=<c:url value="/template/js/bootstrap.min.js"/>></script>
 <script src=<c:url value="/template/js/jquery.isotope.min.js"/>></script>
-<script src=<c:url value="/template/js/jquery.jqGrid.min.js"/>></script>
+<!-- <script src=<c:url value="/template/js/jquery.jqGrid.min.js"/>></script> -->
 <script src=<c:url value="/template/js/jquery.dataTables.js"/>></script>
+<script src=<c:url value="/template/js/KeyTable.min.js"/>></script>
 <script src=<c:url value="/template/js/jquery.dataTables.editable.js"/>></script>
-<!-- <script src=<c:url value="/template/js/KeyTable.min.js"/>></script> -->
 <script src=<c:url value="/template/js/jquery.jeditable.min.js"/>></script>
 <script src=<c:url value="/template/js/jquery-1.8.3.min.js"/>></script>
+
 
 <script language="javascript" type="text/javascript">
 	$(document).ready(
 			function() {
 
-				
+				var oTable = $('#table_id').dataTable();
+				//Ajout d'une nouvelle ligne en fin de tableau
+				$("#addRow").click(
+						function() {
+							$(oTable).dataTable().fnAddData(
+									[ "", "", "", "", "", "Supprimer" ]);
+							$(oTable).find('td').editable(function(v, s) {
+								console.log(v);
+								return (v);
+							});
+						});
+
 				var $table = $("#table_id");
 				// editable
-				$table.dataTable().makeEditable();
-
-				// tab navigation
-				var $td = $table.find("tbody td").get();
-				var keys = new KeyTable({
-					"table" : $table
-				});
-
-				$td.each(function() {
-					keys.event.action(this, function(nCell) {
-						/* Block KeyTable from performing any events while jEditable is in edit mode */
-						keys.block = false;
-
-						/* Initialise the Editable instance for this table */
-						$(nCell).editable(function(sVal) {
-							/* Submit function (local only) - unblock KeyTable */
-							keys.block = false;
-							return sVal;
-						}, {
-							"onblur" : 'submit',
-							"onreset" : function() {
-								/* Unblock KeyTable, but only after this 'esc' key event has finished. Otherwise
-								 * it will 'esc' KeyTable as well
-								 */
-								setTimeout(function() {
-									keys.block = false;
-								}, 0);
-							}
-						});
-
-						/* Dispatch click event to go into edit mode - Saf 4 needs a timeout... */
-						setTimeout(function() {
-							$(nCell).click();
-						}, 0);
-					});
-				});
-				$('#addRow').on(
-						'click',
-						function() {
-							t.row.add(
-									[ 'Insert Value', 'Insert Value',
-											'Insert Value', 'Insert Value',
-											'Insert Value' ]).draw();
-
-						});
+				// $().DataTable() will return a DataTables API instance, 
+				// with the selected table(s) in its context. 
+				// 	The API instance provides a wide range of methods that can be used to manipulate the table.
+				var dataTable = $table.DataTable();
 			});
 </script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		/* Apply the jEditable handlers to the table */
+		$('#table_id tbody td').editable(function(sValue) {
+			/* Get the position of the current data from the node */
+			var aPos = oTable.fnGetPosition(this);
+
+			/* Get the data array for this row */
+			var aData = oTable.fnGetData(aPos[0]);
+
+			/* Update the data array and return the value */
+			aData[aPos[1]] = sValue;
+			return sValue;
+		}, {
+			"onblur" : 'submit'
+		}); /* Submit the form when bluring a field */
+
+		/* Init DataTables */
+		oTable = $('#table_id').dataTable();
+	});
+</script>
+
+<!-- <script type="text/javascript">
+
+// $(function(){
+// 		// tab navigation
+// 		var $table = $("#table_id").DataTable();
+// 		var keys = new KeyTable({
+// 			"table" : $table
+// 		});
+// 		var $td = $("#table_id").find("tbody td").get();
+// 		console.log($td);
+		
+		
+// 		$td.each(function() {
+// 			keys.event.action(this, function(nCell) {
+// 				/* Block KeyTable from performing any events while jEditable is in edit mode */
+// 				keys.block = false;
+
+// 				/* Initialise the Editable instance for this table */
+// 				$(nCell).editable(function(sVal) {
+// 					/* Submit function (local only) - unblock KeyTable */
+// 					keys.block = false;
+// 					return sVal;
+// 				}, {
+// 					"onblur" : 'submit',
+// 					"onreset" : function() {
+// 						/* Unblock KeyTable, but only after this 'esc' key event has finished. Otherwise
+// 						 * it will 'esc' KeyTable as well
+// 						 */
+// 						setTimeout(function() {
+// 							keys.block = false;
+// 						}, 0);
+// 					}
+// 				});
+
+// 				/* Dispatch click event to go into edit mode - Saf 4 needs a timeout... */
+// 				setTimeout(function() {
+// 					$(nCell).click();
+// 				}, 0);
+// 			});
+// 		});
+// });
+</script> -->
 
 </head>
 
@@ -122,7 +159,6 @@
 	<div class="container">
 		<div class="row">
 			<h3>Saisie</h3>
-
 			<form:form action="save.do" commandName="fa" method="POST"
 				cssClass="form-horizontal">
 				<div class="col-lg-2">
@@ -156,26 +192,19 @@
 								<th style="width: 10%">Nb</th>
 								<th style="width: 10%">Prix HT</th>
 								<th style="width: 20%">Total HT</th>
-								<th style="width: 10%">Delete</th>
+								<th style="width: 10%">Supprimer</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>145</td>
-								<td>Designation 145</td>
-								<td>1</td>
-								<td>20</td>
-								<td>20</td>
-								<td>Delete</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>Supprimer</td>
 							</tr>
-							<tr>
-								<td>465</td>
-								<td>Designation 465</td>
-								<td>3</td>
-								<td>5</td>
-								<td>15</td>
-								<td>Delete</td>
-							</tr>
+
 						</tbody>
 					</table>
 
