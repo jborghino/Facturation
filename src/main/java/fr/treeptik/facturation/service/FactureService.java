@@ -16,5 +16,7 @@ public interface FactureService {
 	Facture findById(Integer id) throws ServiceException;
 
 	List<Facture> findAll() throws ServiceException;
+
+	Facture findWithDetail(Integer id) throws ServiceException;
 	
 }

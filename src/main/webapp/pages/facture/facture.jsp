@@ -50,7 +50,8 @@
 	<div class="container">
 
 		<div class="row">
-			<h3>Visualisation</h3><br />
+			<h3>Visualisation</h3>
+			<br />
 			<form:form action="save.do" commandName="facture" method="POST"
 				cssClass="form-horizontal">
 				<div class="col-lg-6">
@@ -85,21 +86,39 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="detail" items="${details }">
+							<c:forEach var="detail" items="${facture.details }">
 
-								<tr>
-									<td>${detail.ref }</td>
-									<td>${detail.designation }</td>
-									<td>${detail.nb }</td>
-									<td>${detail.prixHT }</td>
-									<td>${detail.totalHT }</td>
+								<c:if test="${idEdit != detail.id}">
 
-									<td colspan="2"><a href="delete.do?id=${detail.id }">
-											<i class="fa fa-minus-square fa-spin"></i>Supprimer
-									</a> <a href="init.do?id=${detail.id }"> <i
-											class="fa fa-rotate-right fa-spin"></i>Modifier
-									</a></td>
-								</tr>
+									<tr>
+										<td>${detail.ref }</td>
+										<td>${detail.designation }</td>
+										<td>${detail.nb }</td>
+										<td>${detail.prixHT }</td>
+										<td>${detail.totalHT }</td>
+
+										<td colspan="2"><a href="delete.do?id=${detail.id }">
+												<i class="fa fa-minus-square fa-spin"></i>Supprimer
+										</a> <a href="edit-facture.do?idEdit=${detail.id }&idFacture=${facture.id }"> <i
+												class="fa fa-rotate-right fa-spin"></i>Modifier
+										</a></td>
+									</tr>
+
+								</c:if>
+								<c:if test="${idEdit == detail.id}">
+
+
+									<tr>
+									
+										<td><input type="text" name="facture.ref"/></td>
+										<td><input type="text" name="facture.designation"/></td>
+										<td><input type="text" name="facture.nb"/></td>
+										<td><input type="text" name="facture.prixHT"/></td>
+										<td><input type="text" name="facture.totalHT"/></td>
+
+										<td colspan="2"><input type="submit" /></td>
+									</tr>
+								</c:if>
 							</c:forEach>
 
 						</tbody>

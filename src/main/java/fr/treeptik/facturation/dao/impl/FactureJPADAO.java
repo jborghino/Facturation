@@ -2,6 +2,7 @@ package fr.treeptik.facturation.dao.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,15 @@ public class FactureJPADAO extends GenericJPADAO<Facture, Integer> implements Fa
 		super(Facture.class);
 	}
 	
+	@Override
+	public Facture findWithDetail(Integer id){
+		
+		TypedQuery<Facture> query = entityManager.createQuery(
+				"Select f From Facture f left join fetch f.details d Where f.id = :id", Facture.class);
+		
+		query.setParameter("id", id);
+		
+		return query.getSingleResult();
+		
+	}
 }

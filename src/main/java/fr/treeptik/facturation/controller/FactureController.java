@@ -32,7 +32,7 @@ public class FactureController {
 
 	@Autowired
 	private FactureService factureService;
-	
+
 	@Autowired
 	private DetailService detailService;
 
@@ -56,30 +56,44 @@ public class FactureController {
 	// HttpServletResponse response) {
 	// return new DataTablesResponse<Object>();
 	// }
-	
+
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
 	public ModelAndView list() throws ServiceException {
-		ModelAndView modelAndView = new ModelAndView("facture/list", "factures",
-				factureService.findAll());
+		ModelAndView modelAndView = new ModelAndView("facture/list",
+				"factures", factureService.findAll());
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/facture.do", method = RequestMethod.GET)
-	public ModelAndView delete(Facture facture) throws ServiceException {
+	public ModelAndView getDetail(Facture facture) throws ServiceException {
 		ModelAndView modelAndView = new ModelAndView("facture/facture");
-		
-		facture = factureService.findById(facture.getId());
-		
-		List<Detail> details = new ArrayList<>();
-		details = detailService.findByFactureId(facture.getId());
-		
+
+		facture = factureService.findWithDetail(facture.getId());
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("facture", facture);
-		map.put("details", details);
-		
+
 		modelAndView.addAllObjects(map);
-		
+
 		return modelAndView;
+	}
+
+	@RequestMapping(value = "/edit-facture.do", method = RequestMethod.GET)
+	public ModelAndView edit(Integer idEdit, Integer idFacture)
+			throws ServiceException {
+
+		ModelAndView modelAndView = new ModelAndView("facture/facture");
+		
+		Facture facture = factureService.findWithDetail(idFacture);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("facture", facture);
+		map.put("idEdit", idEdit);
+
+		modelAndView.addAllObjects(map);
+
+		return modelAndView;
+
 	}
 
 }

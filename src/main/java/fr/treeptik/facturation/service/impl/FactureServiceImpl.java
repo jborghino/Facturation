@@ -45,7 +45,7 @@ public class FactureServiceImpl implements FactureService {
 		} catch (DAOException e) {
 			throw new ServiceException("Erreur remove facture", e);
 		}
-		
+
 	}
 
 	@Override
@@ -65,8 +65,10 @@ public class FactureServiceImpl implements FactureService {
 			throw new ServiceException("Erreur findAll facture", e);
 		}
 	}
-	
-	
+	@Override
+	public Facture findWithDetail(Integer id) throws ServiceException {
+		return factureDAO.findWithDetail(id);
 
-	
+	}
+
 }
