@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <html>
 <head>
@@ -60,7 +61,7 @@
 
 		//Ajout d'une nouvelle ligne en fin de tableau
 		$("#addRow").click(function() {
-			$(oTable).dataTable().fnAddData([ "", "", "", "", "" ]);
+			$(oTable).dataTable().fnAddData([ "", "", "", "", "Undefined" ]);
 			$(oTable).find('td').editable(function(v, s) {
 				console.log(v);
 				return (v);
@@ -88,6 +89,40 @@
 
 		/* Init DataTables */
 		oTable = $('#table_id').dataTable();
+	});
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		
+
+		$('#table_id tbody tr').on('change', 'td', function() {
+			$('#table_id tbody tr').each(function() {
+
+				$nb = parseInt($('td:eq(2)').html());
+				$prixHT = parseInt($('td:eq(3)').html());
+				$totalHT = $nb * $prixHT;
+				
+				console.log("nb = " + $nb);
+				console.log("prixHT : " + $prixHT);
+				console.log("totalHT : " + $totalHT);
+				console.log("nb * prix : " + $nb * $prixHT);
+			});
+		});
+
+		// 		$('#table_id tbody tr').on('change', 'td', function() {
+		// 			// Alert the contents of an element in a SPAN in the first TD
+		// 			var nb = $('td:eq(2)').html();
+		// 			var prixHT = $('td:eq(3)').html();
+		// 			var totalHT = nb * prixHT;
+
+		// 			$('td:eq(4)').html();
+		// 			$('td:eq(4)').innerHTML = totalHT;
+		// 			alert (nb);
+		// 			alert (prixHT);
+		// 			alert (totalHT);
+		// 		});
 	});
 </script>
 
@@ -151,10 +186,10 @@
 						<a href="saisie.do"><button class="buttonVehicule">Saisir</button></a>
 					</div>
 					<div class="element">
-						<a href=""><button class="buttonVehicule">Visualiser</button></a>
+						<a href="list.do""><button class="buttonVehicule">Visualiser</button></a>
 					</div>
 					<div class="element">
-						<a href=""><button class="buttonVehicule">Rechercher</button></a>
+						<a href="list.do"><button class="buttonVehicule">Rechercher</button></a>
 					</div>
 					<div class="element">
 						<a href="home.do"><button class="buttonVehicule">Accueil</button></a>
@@ -167,6 +202,7 @@
 
 
 	<div class="container">
+
 		<div class="row">
 			<h3>Saisie</h3>
 			<form:form action="save.do" commandName="fa" method="POST"
@@ -192,38 +228,44 @@
 
 					</div>
 				</div>
-				<div class="col-lg-12">
-					<!-- 						class="table-condensed table-hover table-striped table-bordered" -->
-					<table class="display" id="table_id">
-						<thead>
-							<tr>
-								<th style="width: 10%">Réf</th>
-								<th style="width: 50%">Designation</th>
-								<th style="width: 10%">Nb</th>
-								<th style="width: 10%">Prix HT</th>
-								<th style="width: 20%">Total HT</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-
-						</tbody>
-					</table>
-
-
-				</div>
 			</form:form>
+			<div class="col-lg-12">
+				<div class="row">
+					<button id="addRow" class="buttonVehicule">Nouvelle ligne</button>
+					<button id="deleteRow">Supprimer</button>
+				</div>
+				<table class="display" id="table_id">
+					<thead>
+						<tr>
+							<th style="width: 10%">Réf</th>
+							<th style="width: 50%">Designation</th>
+							<th style="width: 10%">Nb</th>
+							<th style="width: 10%">Prix HT</th>
+							<th style="width: 20%">Total HT</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+
+					</tbody>
+				</table>
+
+
+			</div>
 		</div>
 		<div class="row">
-			<button id="addRow" class="buttonVehicule">Nouvelle ligne</button>
-			<button id="deleteRow">Supprimer</button>
+			<div class="col-lg-12 col-lg-offset-9">
+				<span><b>TOTAL HT : </b>
+					<div id="totalHT"></div> </span>
+			</div>
 		</div>
+
 	</div>
 
 

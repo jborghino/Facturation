@@ -65,6 +65,15 @@ public class DetailServiceImpl implements DetailService {
 			throw new ServiceException("Erreur findAll detail", e);
 		}
 	}
+
+	@Override
+	public List<Detail> findByFactureId(Integer id) throws ServiceException {
+		try {
+			return detailDAO.findByFactureId(id);
+		} catch (DAOException e) {
+			throw new ServiceException("Erreur findByFactureId detail", e);
+		}
+	}
 	
 	
 

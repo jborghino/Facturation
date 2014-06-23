@@ -17,4 +17,6 @@ public interface DetailService {
 
 	List<Detail> findAll() throws ServiceException;
 	
+	public List<Detail> findByFactureId(Integer id) throws ServiceException;
+	
 }

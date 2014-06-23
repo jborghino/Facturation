@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <html>
 <head>
@@ -43,7 +44,40 @@
 				</div>
 			</div>
 		</div>
+		<br />
+		<br />
+		<div class="row">
+				<div class="col-lg-5">
+					<table
+						class="table-condensed table-hover table-striped table-bordered"
+						id="myTable">
+						<tr>
+							<th style="width: 10%">Id</th>
+							<th style="width: 20%">Numero</th>
+							<th style="width: 30%">Date</th>
+							<th style="width: 30%">Detail</th>
+						</tr>
+						<c:forEach var="facture" items="${factures }">
+
+							<tr>
+								<td>${facture.id }</td>
+								<td>${facture.numero }</td>
+								<td><fmt:formatDate value="${facture.date }"
+										pattern="dd/MM/yyyy" /></td>
+								<td><a href="facture.do?id=${facture.id }">Detail</a></td>
+		
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+
+
+			</div>
 	</div>
+	
+	
+	
+	
 
 	<script type="text/javascript">
 		var j = jQuery.noConflict();

@@ -1,5 +1,10 @@
 package fr.treeptik.facturation.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.treeptik.facturation.datatables.DataTablesRequest;
 import fr.treeptik.facturation.datatables.DataTablesResponse;
 import fr.treeptik.facturation.datatables.DataTablesTO;
+import fr.treeptik.facturation.exception.ServiceException;
+import fr.treeptik.facturation.modele.Detail;
 import fr.treeptik.facturation.modele.Facture;
+import fr.treeptik.facturation.service.DetailService;
 import fr.treeptik.facturation.service.FactureService;
 
 @Controller
@@ -24,6 +32,9 @@ public class FactureController {
 
 	@Autowired
 	private FactureService factureService;
+	
+	@Autowired
+	private DetailService detailService;
 
 	@RequestMapping(value = "home.do", method = RequestMethod.GET)
 	public ModelAndView initFacture() {
@@ -45,5 +56,30 @@ public class FactureController {
 	// HttpServletResponse response) {
 	// return new DataTablesResponse<Object>();
 	// }
+	
+	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
+	public ModelAndView list() throws ServiceException {
+		ModelAndView modelAndView = new ModelAndView("facture/list", "factures",
+				factureService.findAll());
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/facture.do", method = RequestMethod.GET)
+	public ModelAndView delete(Facture facture) throws ServiceException {
+		ModelAndView modelAndView = new ModelAndView("facture/facture");
+		
+		facture = factureService.findById(facture.getId());
+		
+		List<Detail> details = new ArrayList<>();
+		details = detailService.findByFactureId(facture.getId());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("facture", facture);
+		map.put("details", details);
+		
+		modelAndView.addAllObjects(map);
+		
+		return modelAndView;
+	}
 
 }
