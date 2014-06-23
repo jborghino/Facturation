@@ -95,5 +95,27 @@ public class FactureController {
 		return modelAndView;
 
 	}
+	
+	@RequestMapping(value = "/save.do", method = RequestMethod.POST)
+	public ModelAndView save(Detail detail, Integer idFacture) throws ServiceException {
+
+		ModelAndView modelAndView = new ModelAndView("redirect:list.do");
+		
+		
+		
+		
+		
+		Facture facture = factureService.findById(idFacture);
+		detail.setFacture(facture);
+		detailService.update(detail);
+		System.out.println(detail);
+		Map<String, Object> map = new HashMap<>();
+		map.put("facture", facture);
+
+		modelAndView.addAllObjects(map);
+		
+		
+		return modelAndView;
+	}
 
 }

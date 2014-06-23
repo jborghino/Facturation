@@ -81,6 +81,12 @@ public class Detail implements Serializable{
 				+ designation + ", nb=" + nb + ", prixHT=" + prixHT
 				+ ", totalHT=" + totalHT + "]";
 	}
+	public Facture getFacture() {
+		return facture;
+	}
+	public void setFacture(Facture facture) {
+		this.facture = facture;
+	}
 	
 	
 }

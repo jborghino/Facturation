@@ -52,7 +52,7 @@
 		<div class="row">
 			<h3>Visualisation</h3>
 			<br />
-			<form:form action="save.do" commandName="facture" method="POST"
+			<form:form action="save.do?idFacture=${facture.id }" commandName="facture" method="POST"
 				cssClass="form-horizontal">
 				<div class="col-lg-6">
 					<form:hidden name="id" path="id" />
@@ -77,6 +77,7 @@
 					<table class="display" id="table_id">
 						<thead>
 							<tr>
+								<th style="display:none" >Id</th>
 								<th style="width: 10%">Réf</th>
 								<th style="width: 37%">Designation</th>
 								<th style="width: 10%">Nb</th>
@@ -91,6 +92,7 @@
 								<c:if test="${idEdit != detail.id}">
 
 									<tr>
+										<td style="display:none">${facture.id }</td>
 										<td>${detail.ref }</td>
 										<td>${detail.designation }</td>
 										<td>${detail.nb }</td>
@@ -105,16 +107,17 @@
 									</tr>
 
 								</c:if>
+								
 								<c:if test="${idEdit == detail.id}">
 
 
 									<tr>
-									
-										<td><input type="text" name="facture.ref"/></td>
-										<td><input type="text" name="facture.designation"/></td>
-										<td><input type="text" name="facture.nb"/></td>
-										<td><input type="text" name="facture.prixHT"/></td>
-										<td><input type="text" name="facture.totalHT"/></td>
+										<td style="display:none"><input type="text" name="facture_id" value="${detail.facture.id }"</td>
+										<td><input type="text" name="ref" value="${detail.ref }"/></td>
+										<td><input type="text" name="designation" value="${detail.designation }"/></td>
+										<td><input type="text" name="nb" value="${detail.nb }"/></td>
+										<td><input type="text" name="prixHT" value="${detail.prixHT }"/></td>
+										<td><input type="text" name="totalHT" value="${detail.totalHT }"/></td>
 
 										<td colspan="2"><input type="submit" /></td>
 									</tr>

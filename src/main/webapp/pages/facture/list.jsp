@@ -52,7 +52,7 @@
 						class="table-condensed table-hover table-striped table-bordered"
 						id="myTable">
 						<tr>
-							<th style="width: 10%">Id</th>
+							<th style="display:none" >Id</th>
 							<th style="width: 20%">Numero</th>
 							<th style="width: 30%">Date</th>
 							<th style="width: 30%">Detail</th>
@@ -60,7 +60,7 @@
 						<c:forEach var="facture" items="${factures }">
 
 							<tr>
-								<td>${facture.id }</td>
+								<td style="display:none">${facture.id }</td>
 								<td>${facture.numero }</td>
 								<td><fmt:formatDate value="${facture.date }"
 										pattern="dd/MM/yyyy" /></td>
